@@ -59,19 +59,19 @@
       <h2>Usage</h2>
       <p>All options available to injectCss are available to the jQuery version too.</p>
       <h4>A simple injection:</h4>
-      <pre>    injectCss(document.getElementsByName("div")[0], "* {background:green; color:white;} }");</pre>
+      <pre>    injectCss(document.getElementsByName("div")[0], "* {background:green; color:white;}");</pre>
       <h4>The same thing with jQuery:</h4>
-      <pre>    $("div:first").injectCss("* {background:green; color:white;} }");</pre>
+      <pre>    $("div:first").injectCss("* {background:green; color:white;}");</pre>
       <h4>To remove an injection:</h4>
       <pre>    removeInjectedCss(document.getElementsByName("div")[0]);</pre>
       <h4>The same thing with jQuery:</h4>
       <pre>    $("div:first").removeInjectedCss();</pre>
       <h4>Inject multiple styles:</h4>
-      <pre>    injectCss(document.getElementsByName("div")[0], "div {background:green; color:white;} a {text-decoration: none;} }");</pre>
+      <pre>    injectCss(document.getElementsByName("div")[0], "div {background:green; color:white;} a {text-decoration: none;}");</pre>
       <h4>Inject and make all the styles important:</h4>
-      <pre>    injectCss(document.getElementsByName("div")[0], "* {background:green; color:white;} }", { important: true });</pre>
+      <pre>    injectCss(document.getElementsByName("div")[0], "* {background:green; color:white;}", { important: true });</pre>
       <h4>Inject and have the CSS affect the target element itself:</h4>
-      <pre>    injectCss(document.getElementsByName("div")[0], "self {background:green; color:white;} }");</pre>
+      <pre>    injectCss(document.getElementsByName("div")[0], "self {background:green; color:white;}");</pre>
       <h4>Temporarily set properties with jQuery:</h4>
       <pre>
     $("div:first").injectCss("self {\
