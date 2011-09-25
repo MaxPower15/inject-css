@@ -41,7 +41,7 @@ See the [demo page](http://dl.dropbox.com/u/124192/websites/inject-css/index.htm
 
 ## Author
 
-    Max Schnur
-    https://github.com/MaxPower15
-    http://twitter.com/#!/MaxSchnur
+Max Schnur
+[https://github.com/MaxPower15]
+[http://twitter.com/#!/MaxSchnur]
 
