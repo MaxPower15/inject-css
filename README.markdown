@@ -31,7 +31,8 @@ along with all the power of javascript.
 - When you're dropping an HTML/CSS/JS widget in someone else's site, and you don't want to allow them to customize it.
 - When you want to temporarily set a CSS property, and it's important that it go back to its original state.
 
-  ## When do I want to avoid injected styles?
+## When do I want to avoid injected styles?
+
 - Inline styles are *fast*, so they're still better for animation or extremely frequent style changes.
 - In some situations, you want people to be able to override (theme) your CSS. Injected styles will mostly prevent that.
 
@@ -42,6 +43,8 @@ See the [demo page](http://dl.dropbox.com/u/124192/websites/inject-css/index.htm
 ## Author
 
 Max Schnur
-[https://github.com/MaxPower15]
-[http://twitter.com/#!/MaxSchnur]
+
+https://github.com/MaxPower15
+
+http://twitter.com/#!/MaxSchnur
 
