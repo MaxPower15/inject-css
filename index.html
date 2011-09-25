@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta http-equiv="content-type"  content="text/html;charset=UTF-8" />
+  <title>Javascript CSS Injection</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+  <style>
+    html,body{margin:0;padding:0;}
+  </style>
+</head>
+<body>
+  <div class="outer_container">
+    <div class="inner_container">
+      <h1>Javascript CSS Injection - What? Why?</h1>
+      <p>
+        If you've ever had to drop some HTML/CSS in someone else's site, you know that CSS specificity
+        issues can be a pain to deal with. All of a sudden your .button class has a huge font and 
+        underlined text, and the rule that's applying it is so specific that you can't hope to come up 
+        with a generalized solution. Javascript CSS injection seeks to solve that problem.
+      </p>
+      <p>
+        The idea is that inserting a &lt;style&gt; element into the DOM gives us better control than 
+        modifying inline style properties. With a few simple transformations, your CSS can be modified 
+        to be the most specific on the page, and to only target the elements you care about.
+      </p>
+      <p>
+        <em>Note that this plugin does not absolutely guarantee the most specific selector possible in CSS.</em>
+        The selectors are comprised of the tag-id-class combo for every ancestor node of the target, and the 
+        node itself. To get a more specific selector, we would need to explicitly target every attribute for each
+        node. But that's slow and not cross-browser compatible. That said, the situations where someone would 
+        have a more specific selector are rare and mostly contrived. You can also use the important option to
+        get around the problem.
+      </p>
+
+      <h2>Well what about inline styles?</h2>
+      <p>Inline styles, besides being ugly, are an imperfect solution. Some problems I've run into:</p>
+      <ul>
+        <li>No concept of CSS inheritance. What you set is what you get, cascading be damned.</li>
+        <li>No true ability to "set back to default". You can only reset an inline style with another inline style (which has its own set of issues).</li>
+        <li>No CSS pseudo-selectors. Being able to set :hover directly in CSS is much nicer than setting up JS hover events and classes.</li>
+      </ul>
+      <p>
+        With injected &lt;style&gt; attributes, we get all the benefits that come with external stylesheets, 
+        along with all the power of javascript.
+      </p>
+
+      <h2>When do I want to use injected styles?</h2>
+      <ul>
+        <li>When you're dropping an HTML/CSS/JS widget in someone else's site, and you don't want to allow them to customize it.</li>
+        <li>When you want to temporarily set a CSS property, and it's important that it go back to its original state.</li>
+      </ul>
+
+      <h2>When do I want to avoid injected styles?</h2>
+      <ul>
+        <li>Inline styles are <em>fast</em>, so they're still better for animation or extremely frequent style changes.</li>
+        <li>In some situations, you want people to be able to override (theme) your CSS. Injected styles will mostly prevent that.</li>
+      </ul>
+
+      <h2>Usage</h2>
+      <p>All options available to injectCss are available to the jQuery version too.</p>
+      <h4>A simple injection:</h4>
+      <pre>    injectCss(document.getElementsByName("div")[0], "* {background:green; color:white;} }");</pre>
+      <h4>The same thing with jQuery:</h4>
+      <pre>    $("div:first").injectCss("* {background:green; color:white;} }");</pre>
+      <h4>To remove an injection:</h4>
+      <pre>    removeInjectedCss(document.getElementsByName("div")[0]);</pre>
+      <h4>The same thing with jQuery:</h4>
+      <pre>    $("div:first").removeInjectedCss();</pre>
+      <h4>Inject multiple styles:</h4>
+      <pre>    injectCss(document.getElementsByName("div")[0], "div {background:green; color:white;} a {text-decoration: none;} }");</pre>
+      <h4>Inject and make all the styles important:</h4>
+      <pre>    injectCss(document.getElementsByName("div")[0], "* {background:green; color:white;} }", { important: true });</pre>
+      <h4>Inject and have the CSS affect the target element itself:</h4>
+      <pre>    injectCss(document.getElementsByName("div")[0], "self {background:green; color:white;} }");</pre>
+      <h4>Temporarily set properties with jQuery:</h4>
+      <pre>
+    $("div:first").injectCss("self {\
+      display: block;\
+      position: absolute;\
+      visibility: hidden;\
+    }", { important: true }).each(function() {
+      console.log($(this).width());
+    }).removeInjectedCss();</pre>
+
+    </div>
+  </div>
+  <script type="text/javascript" src="inject-css.js"></script>
+  <script type="text/javascript">
+
+    // center the page with injected css!
+    // the backslashes at the end of the line are so we can have a multiline string in js
+    $("body").injectCss("\
+      .outer_container{text-align:center;}\
+      .inner_container{margin:0 auto;text-align:left;width:960px;}\
+    ");
+
+    // basic injectCss
+    injectCss(document.getElementsByTagName("div")[1], "self:hover {background:#ddffdd; color:#336633;}");
+
+    // injectCss with jQuery
+    $("div:first").injectCss("*:hover {background:#ffdddd; color:#663333;}");
+  </script>
+</body>
+</html>
