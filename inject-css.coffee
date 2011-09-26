@@ -84,7 +84,6 @@
   cssSelector = (elem) ->
     result = elem.tagName.toLowerCase()
     result += "#" + elem.id if elem.id
-    result += "." + trim(elem.class).replace(/\s+/g, ".") if elem.class
     result
 
   # given a DOM element "elem" and raw CSS, modify the CSS to only affect 
@@ -104,10 +103,11 @@
     # generate the most specific css selector of elem
     specificSelector = ""
     specificSelector += cssSelector(elem) + " " for index, elem of ancestors(elem)
+    specificSelector = trim(specificSelector) + ".#{randId}"
 
     # generate a new specific selector for each rule
     # add !important onto each property if that option is set
-    outputCss = filterPrefixSelectors css, trim(specificSelector)
+    outputCss = filterPrefixSelectors css, specificSelector
     outputCss = filterImportant outputCss if options.important
 
     # create the <style> element and insert it

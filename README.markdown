@@ -10,18 +10,19 @@ modifying inline style properties. With a few simple transformations, your CSS c
 to be the most specific on the page, and to only target the elements you care about.
 
 *Note that this plugin does not absolutely guarantee the most specific selector possible in CSS.*
-The selectors are comprised of the tag-id-class combo for every ancestor node of the target, and the 
-node itself. To get a more specific selector, we would need to explicitly target every attribute for each
-node. But that's slow and not cross-browser compatible. That said, the situations where someone would 
-have a more specific selector are rare and mostly contrived. You can also use the important option to
-get around the problem.
+The selectors are comprised of a tag-id-class combo for every ancestor node of the target, and the 
+target node itself. To get a more specific selector, we would need to explicitly target every attributes
+for each node. But that's slow and not cross-browser compatible. That said, the situations where someone
+would have a more specific selector are rare and mostly contrived. You can also use the "important" option
+to get around the problem.
 
 ## Well what about inline styles?
 
 Inline styles, besides being ugly, are an imperfect solution. Some problems I've run into:
+
 - No concept of CSS inheritance. What you set is what you get, cascading be damned.
-- No true ability to "set back to default". You can only reset an inline style with another inline style (which has its own set of issues).
-- No CSS pseudo-selectors. Being able to set :hover directly in CSS is much nicer than setting up JS hover events and classes.
+- No true ability to "set back to default". You can only reset an inline css property with another inline property.
+- No CSS pseudo-selectors. For example, being able to set :hover directly in CSS is much nicer than setting up JS hover events and classes.
 
 With injected &lt;style&gt; attributes, we get all the benefits that come with external stylesheets, 
 along with all the power of javascript.
@@ -39,6 +40,12 @@ along with all the power of javascript.
 ## Usage
 
 See the [demo page](http://dl.dropbox.com/u/124192/websites/inject-css/index.html) for usage.
+
+## Known Issues
+
+1. Semicolons or colons inside quotes in a CSS property are parsed as if they are NOT in quotes, thereby corrupting 
+a CSS Rule. If issues concerning this crop up, I will add a fix, but I can't imagine that situation being common.
+2. If the ID or tag name in any of the target element's ancestors are changed, the injected CSS will not work.
 
 ## Author
 

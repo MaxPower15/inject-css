@@ -106,9 +106,6 @@
     if (elem.id) {
       result += "#" + elem.id;
     }
-    if (elem["class"]) {
-      result += "." + trim(elem["class"]).replace(/\s+/g, ".");
-    }
     return result;
   };
   window.injectCss = function(elem, css, options) {
@@ -134,7 +131,8 @@
       elem = _ref[index];
       specificSelector += cssSelector(elem) + " ";
     }
-    outputCss = filterPrefixSelectors(css, trim(specificSelector));
+    specificSelector = trim(specificSelector) + ("." + randId);
+    outputCss = filterPrefixSelectors(css, specificSelector);
     if (options.important) {
       outputCss = filterImportant(outputCss);
     }
