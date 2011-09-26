@@ -139,7 +139,6 @@
     styles = document.getElementsByTagName("style");
     domTarget = styles.length ? styles[styles.length - 1] : document.getElementsByTagName('script')[0];
     domTarget.parentNode.insertBefore(styleElem, domTarget.nextSibling);
-    console.log(domTarget);
     elem.injectedCss.push(styleElem);
     return styleElem;
   };

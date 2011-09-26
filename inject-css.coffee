@@ -119,7 +119,6 @@
     styles = document.getElementsByTagName "style"
     domTarget = if styles.length then styles[styles.length-1] else document.getElementsByTagName('script')[0]
     domTarget.parentNode.insertBefore(styleElem, domTarget.nextSibling)
-    console.log domTarget
     elem.injectedCss.push styleElem
 
     # return the injected <style> element
