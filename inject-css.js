@@ -11,12 +11,12 @@
     }
   };
   parseCssRules = function(css) {
-    var cleanCss, index, result, rule, rules, selector, styleEnd, styleStart, styles;
+    var cleanCss, result, rule, rules, selector, styleEnd, styleStart, styles, _i, _len;
     result = [];
     cleanCss = removeCssComments(css);
     rules = cleanCss.match(/([^\{]+[^\}]*\})/g);
-    for (index in rules) {
-      rule = rules[index];
+    for (_i = 0, _len = rules.length; _i < _len; _i++) {
+      rule = rules[_i];
       styleStart = rule.indexOf("{");
       styleEnd = rule.indexOf("}");
       selector = rule.substring(0, styleStart);
@@ -127,7 +127,7 @@
       elem = _ref[index];
       specificSelector += cssSelector(elem) + " ";
     }
-    specificSelector = trim(specificSelector) + ("." + randId);
+    specificSelector = trim(specificSelector);
     outputCss = filterPrefixSelectors(css, specificSelector);
     if (options.important) {
       outputCss = filterImportant(outputCss);
@@ -135,11 +135,16 @@
     styleElem = document.createElement("style");
     styleElem.id = "" + randId + "_style";
     styleElem.setAttribute("data-injected-css-handle", elem.id);
-    styleElem.innerHTML = outputCss;
+    styleElem.setAttribute("type", "text/css");
     styles = document.getElementsByTagName("style");
-    domTarget = styles.length ? styles[styles.length - 1] : document.getElementsByTagName('script')[0];
+    domTarget = styles.length ? styles[styles.length - 1] : document.getElementsByTagName("script")[0];
     domTarget.parentNode.insertBefore(styleElem, domTarget.nextSibling);
     elem.injectedCss.push(styleElem);
+    if (styleElem.styleSheet) {
+      styleElem.styleSheet.cssText = outputCss;
+    } else {
+      styleElem.appendChild(document.createTextNode(outputCss));
+    }
     return styleElem;
   };
   wipeInjectedData = function(elem) {

@@ -11,7 +11,7 @@
     result = []
     cleanCss = removeCssComments(css)
     rules = cleanCss.match /([^\{]+[^\}]*\})/g
-    for index, rule of rules
+    for rule in rules
       styleStart = rule.indexOf "{"
       styleEnd = rule.indexOf "}"
       selector = rule.substring 0, styleStart
@@ -102,24 +102,31 @@
     # generate the most specific css selector of elem
     specificSelector = ""
     specificSelector += cssSelector(elem) + " " for index, elem of ancestors(elem)
-    specificSelector = trim(specificSelector) + ".#{randId}"
+    specificSelector = trim(specificSelector)
 
     # generate a new specific selector for each rule
     # add !important onto each property if that option is set
     outputCss = filterPrefixSelectors css, specificSelector
     outputCss = filterImportant outputCss if options.important
 
-    # create the <style> element and insert it
+    # create the <style> element
     styleElem = document.createElement("style")
     styleElem.id = "#{randId}_style"
     styleElem.setAttribute "data-injected-css-handle", elem.id
-    styleElem.innerHTML = outputCss
+    styleElem.setAttribute "type", "text/css"
 
     # insert after either the last <style> or the first <script>
     styles = document.getElementsByTagName "style"
-    domTarget = if styles.length then styles[styles.length-1] else document.getElementsByTagName('script')[0]
+    domTarget = if styles.length then styles[styles.length-1] else document.getElementsByTagName("script")[0]
     domTarget.parentNode.insertBefore(styleElem, domTarget.nextSibling)
     elem.injectedCss.push styleElem
+
+    # update the content on the <style> elem
+    # this must be done after its in the DOM to prevent IE7 from crashing
+    if styleElem.styleSheet
+      styleElem.styleSheet.cssText = outputCss
+    else
+      styleElem.appendChild document.createTextNode(outputCss)
 
     # return the injected <style> element
     styleElem
