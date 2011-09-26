@@ -117,11 +117,7 @@
     if (!elem.id) {
       elem.id = randId;
     }
-    if (elem.getAttribute("class")) {
-      elem.setAttribute("class", "" + (elem.getAttribute("class")) + " " + randId);
-    } else {
-      elem.setAttribute("class", randId);
-    }
+    elem.setAttribute("class", (elem.getAttribute("class") || "") + " " + randId);
     if (!elem.injectedCss) {
       elem.injectedCss = [];
     }
@@ -138,7 +134,7 @@
     }
     styleElem = document.createElement("style");
     styleElem.id = "" + randId + "_style";
-    styleElem.setAttribute("data-inject-css-handle", elem.id);
+    styleElem.setAttribute("data-injected-css-handle", elem.id);
     styleElem.innerHTML = outputCss;
     styles = document.getElementsByTagName("style");
     domTarget = styles.length ? styles[styles.length - 1] : document.getElementsByTagName('script')[0];

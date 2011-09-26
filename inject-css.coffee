@@ -58,6 +58,8 @@
       "#{rule.selector} {#{newStyles}}"
 
   # given raw css, add some arbitrary text before every selector
+  # special case if the selector starts with "self":
+  #   remove "self" and append the rest of the selector directly to the prefix (no space)
   filterPrefixSelectors = (css, prefix) ->
     filterCss css, (rule) ->
       selectors = parseSelectors(rule.selector)
@@ -94,10 +96,7 @@
 
     # set some data on elem so we can pick it out of a crowd
     elem.id = randId if !elem.id
-    if elem.getAttribute("class")
-      elem.setAttribute "class", "#{elem.getAttribute("class")} #{randId}"
-    else
-      elem.setAttribute "class", randId
+    elem.setAttribute "class", (elem.getAttribute("class") || "") + " " + randId
     elem.injectedCss = [] if !elem.injectedCss
 
     # generate the most specific css selector of elem
@@ -113,7 +112,7 @@
     # create the <style> element and insert it
     styleElem = document.createElement("style")
     styleElem.id = "#{randId}_style"
-    styleElem.setAttribute "data-inject-css-handle", elem.id
+    styleElem.setAttribute "data-injected-css-handle", elem.id
     styleElem.innerHTML = outputCss
 
     # insert after either the last <style> or the first <script>
