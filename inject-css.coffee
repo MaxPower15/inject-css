@@ -30,7 +30,7 @@
   parseProperties = (properties) ->
     result = []
     properties = properties.split ";"
-    for index, property of properties
+    for property in properties
       [name, value] = property.split(":")
       if name or value
         result.push
@@ -46,14 +46,14 @@
   filterCss = (css, callback) ->
     result = ""
     rules = parseCssRules(css)
-    result += callback(rule) + "\n" for index, rule of rules
+    result += callback(rule) + "\n" for rule in rules
     result
 
   # given raw css, add !important onto every property
   filterImportant = (css) ->
     filterCss css, (rule) ->
       newStyles = ""
-      for index, property of parseProperties(rule.styles)
+      for property in parseProperties(rule.styles)
         newStyles += "#{property.name}:#{property.value} !important;"
       "#{rule.selector} {#{newStyles}}"
 
@@ -64,7 +64,7 @@
     filterCss css, (rule) ->
       selectors = parseSelectors(rule.selector)
       newSelectors = []
-      for index, selector of selectors
+      for selector in selectors
         if /^self/.test(selector)
           newSelectors.push prefix unless newSelectors.length
           newSelectors[newSelectors.length-1] += selector.replace /^self/, ""
@@ -101,7 +101,7 @@
 
     # generate the most specific css selector of elem
     specificSelector = ""
-    specificSelector += cssSelector(elem) + " " for index, elem of ancestors(elem)
+    specificSelector += cssSelector(elem) + " " for elem in ancestors(elem)
     specificSelector = trim(specificSelector)
 
     # generate a new specific selector for each rule
@@ -147,7 +147,7 @@
       styleElem.parentNode.removeChild styleElem
       wipeInjectedData document.getElementById(styleElem.getAttribute("data-injected-css-handle"))
     else if elem.injectedCss
-      for index, styleElem of elem.injectedCss
+      for styleElem in elem.injectedCss
         styleElem.parentNode.removeChild styleElem
       wipeInjectedData elem
 

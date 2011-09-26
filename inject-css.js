@@ -31,11 +31,11 @@
     return result;
   };
   parseProperties = function(properties) {
-    var index, name, property, result, value, _ref;
+    var name, property, result, value, _i, _len, _ref;
     result = [];
     properties = properties.split(";");
-    for (index in properties) {
-      property = properties[index];
+    for (_i = 0, _len = properties.length; _i < _len; _i++) {
+      property = properties[_i];
       _ref = property.split(":"), name = _ref[0], value = _ref[1];
       if (name || value) {
         result.push({
@@ -50,22 +50,22 @@
     return selector.split(",");
   };
   filterCss = function(css, callback) {
-    var index, result, rule, rules;
+    var result, rule, rules, _i, _len;
     result = "";
     rules = parseCssRules(css);
-    for (index in rules) {
-      rule = rules[index];
+    for (_i = 0, _len = rules.length; _i < _len; _i++) {
+      rule = rules[_i];
       result += callback(rule) + "\n";
     }
     return result;
   };
   filterImportant = function(css) {
     return filterCss(css, function(rule) {
-      var index, newStyles, property, _ref;
+      var newStyles, property, _i, _len, _ref;
       newStyles = "";
       _ref = parseProperties(rule.styles);
-      for (index in _ref) {
-        property = _ref[index];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        property = _ref[_i];
         newStyles += "" + property.name + ":" + property.value + " !important;";
       }
       return "" + rule.selector + " {" + newStyles + "}";
@@ -73,11 +73,11 @@
   };
   filterPrefixSelectors = function(css, prefix) {
     return filterCss(css, function(rule) {
-      var index, newSelectors, selector, selectors;
+      var newSelectors, selector, selectors, _i, _len;
       selectors = parseSelectors(rule.selector);
       newSelectors = [];
-      for (index in selectors) {
-        selector = selectors[index];
+      for (_i = 0, _len = selectors.length; _i < _len; _i++) {
+        selector = selectors[_i];
         if (/^self/.test(selector)) {
           if (!newSelectors.length) {
             newSelectors.push(prefix);
@@ -109,7 +109,7 @@
     return result;
   };
   window.injectCss = function(elem, css, options) {
-    var domTarget, index, outputCss, randId, specificSelector, styleElem, styles, _ref;
+    var domTarget, outputCss, randId, specificSelector, styleElem, styles, _i, _len, _ref;
     if (!options) {
       options = {};
     }
@@ -123,8 +123,8 @@
     }
     specificSelector = "";
     _ref = ancestors(elem);
-    for (index in _ref) {
-      elem = _ref[index];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      elem = _ref[_i];
       specificSelector += cssSelector(elem) + " ";
     }
     specificSelector = trim(specificSelector);
@@ -160,15 +160,15 @@
     }
   };
   window.removeInjectedCss = function(elem) {
-    var index, styleElem, _ref;
+    var styleElem, _i, _len, _ref;
     if (typeof elem === "string") {
       styleElem = document.getElementById(elem);
       styleElem.parentNode.removeChild(styleElem);
       return wipeInjectedData(document.getElementById(styleElem.getAttribute("data-injected-css-handle")));
     } else if (elem.injectedCss) {
       _ref = elem.injectedCss;
-      for (index in _ref) {
-        styleElem = _ref[index];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        styleElem = _ref[_i];
         styleElem.parentNode.removeChild(styleElem);
       }
       return wipeInjectedData(elem);
