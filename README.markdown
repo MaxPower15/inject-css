@@ -10,7 +10,7 @@ modifying inline style properties. With a few simple transformations, your CSS c
 to be the most specific on the page, and to only target the elements you care about.
 
 *Note that this plugin does not absolutely guarantee the most specific selector possible in CSS.*
-The selectors are comprised of a tag-id-class combo for every ancestor node of the target, and the 
+The selectors are comprised of a tag-id combo for every ancestor node of the target, and the 
 target node itself. To get a more specific selector, we would need to explicitly target every attributes
 for each node. But that's slow and not cross-browser compatible. That said, the situations where someone
 would have a more specific selector are rare and mostly contrived. You can also use the "important" option
