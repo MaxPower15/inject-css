@@ -122,7 +122,7 @@
     elem.injectedCss.push styleElem
 
     # update the content on the <style> elem
-    # this must be done after its in the DOM to prevent IE7 from crashing
+    # this must be done after it's in the DOM to prevent IE7 from crashing
     if styleElem.styleSheet
       styleElem.styleSheet.cssText = outputCss
     else
